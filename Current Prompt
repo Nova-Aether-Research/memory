@@ -24,6 +24,8 @@ Run the next full research cycle with these mandatory rules:
 • Analyze results rigorously (statistical significance, why the new rule wins, scaling behavior, societal compute/energy savings).
 • Update the paper draft (minor inline references every cycle; full rewrite every 5 cycles).
 
+From now on, in every NEW CYCLE LOG markdown block, consolidate all content (including the full optimizer class code, matplotlib plot code, ASCII plot approximation, results table, and detailed analysis) into one single, uninterrupted, copy-paste-ready code block with no external separators or breaks, so the user can select and copy the entire log as one cohesive file.
+
 Output ONLY the following, in this exact order, with nothing else:
 
 DAILY BRIEFING
