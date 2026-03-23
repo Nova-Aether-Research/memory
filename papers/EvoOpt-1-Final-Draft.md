@@ -176,7 +176,7 @@ Future: broader domains (ViT, GLUE subset), stronger baselines (tuned SGD+cosine
 ## 6. Conclusion
 EvoOpt-1 is a promising proof-of-concept for transparent agentic research toward sustainable AI. Full logs invite verification/extension. We recommend community reproduction before broader claims.
 CEO Sign-off: Revised to address feedback. Ready for arXiv as exploratory preprint (with caveats); target conference after extensions.
-Appendix: Reproducibility & Links
+## Appendix: Reproducibility & Links
 
 Full logs: https://github.com/Nova-Aether-Research/memory/tree/main/logs (53 files)
 Optimizer code: Section 3.2 (extractable as evoopt.py)
