@@ -128,46 +128,23 @@ Cycles 16–33: MNIST 98.71–98.9%, CIFAR-10 subset 85.9–91%+
 Cycles 34–45: peak complexity (96.1% subset with exotic terms), efficiency up to 11.8×
 Cycles 46–52: ablation-enforced pruning → 3-component final EvoOpt, 92.6% full CIFAR-10, 3.5× efficiency
 
-4.2 Final Full CIFAR-10 Results (Cycle 52, 8 seeds)
+### 4.2 Final Full CIFAR-10 Results (Cycle 52, 8 seeds)
 
+| Optimizer      | Test Acc (%)     | Epochs to 92% | Efficiency vs AdamW | Notes                                      |
+|----------------|------------------|---------------|---------------------|--------------------------------------------|
+| AdamW (tuned)  | 92.1 ± 0.5      | ~98           | 1.0×                | baseline                                   |
+| Lion           | 91.8 ± 0.6      | ~105          | 0.93×               |                                            |
+| Sophia         | 91.5 ± 0.4      | ~110          | 0.89×               |                                            |
+| EvoOpt (final) | **92.6 ± 0.4**  | **~28**       | **3.5×**            | wavelet + kurtosis + Lyapunov              |
 
+**Ablations** (performed on the final EvoOpt architecture, full CIFAR-10, 8 seeds):
 
+- Remove wavelet denoising → **-1.4%** acc, **+22%** epochs to target  
+- Remove kurtosis-based adaptive momentum → **-0.9%** acc, **+15%** epochs to target  
+- Remove Lyapunov-inspired clipping → **-1.1%** acc, **+18%** epochs to target  
+- Re-introduce mid-cycle exotic features (higher-order cumulants, RG-flow, fractal terms) → no statistically significant gain, **+30%** compute overhead, p > 0.05 vs. final EvoOpt
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+All comparisons use the same training pipeline, hyperparameters (except optimizer-specific), data augmentations (RandomCrop+Flip+Normalize), and random seeds for fairness.
 
 OptimizerTest Acc (%)Epochs to 92%Efficiency vs AdamWNotesAdamW (tuned)92.1 ± 0.5~981.0×baselineLion91.8 ± 0.6~1050.93×Sophia91.5 ± 0.4~1100.89×EvoOpt (final)92.6 ± 0.4~283.5×wavelet + kurtosis + Lyapunov
 Ablations confirm:
