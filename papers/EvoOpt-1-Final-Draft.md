@@ -53,7 +53,7 @@ class EvoOpt(Optimizer):
         return loss
 
 (Complete code also in cycle_52.md and forthcoming evoopt_final.py.)
-4. Experimental Setup
+### 4. Experimental Setup
 • Datasets: MNIST; full CIFAR-10 (50k train / 10k test, RandomCrop+Flip+Normalize).
 • Model: Standard 8.1M-parameter CNN.
 • Training: 8 independent random seeds, identical pipeline for all optimizers.
