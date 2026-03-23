@@ -128,6 +128,14 @@ Target: 92% test accuracy on CIFAR-10
 
 ### 4.2 Main Results (CIFAR-10)
 
+
+| Optimizer       | Test Acc (%) ± std | Epochs to 92% ± std | Wall-clock to 92% (s) | Per-step latency (ms) |
+|-----------------|---------------------|----------------------|------------------------|------------------------|
+| AdamW (tuned)   | 92.1 ± 0.3         | 98 ± 6              | 4200 ± 180            | 28.1                  |
+| SGD + momentum + cosine | 91.8 ± 0.4     | 105 ± 8             | 3850 ± 210            | 25.4                  |
+| Lion            | 91.5 ± 0.4         | 112 ± 7             | —                     | —                     |
+| EvoOpt-1        | 92.6 ± 0.3         | 28 ± 4              | 3100 ± 160            | 32.5                  |
+
 OptimizerTest Acc (%) ± stdEpochs to 92% ± stdWall-clock to 92% (s)Per-step latency (ms)AdamW (tuned)92.1 ± 0.398 ± 64200 ± 18028.1SGD + momentum + cosine91.8 ± 0.4105 ± 83850 ± 21025.4Lion91.5 ± 0.4112 ± 7——EvoOpt-192.6 ± 0.328 ± 43100 ± 16032.5
 
 ~3.5× epoch reduction, ~1.3–1.4× wall-clock speedup after overhead.
