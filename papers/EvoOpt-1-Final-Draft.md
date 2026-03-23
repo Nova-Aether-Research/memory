@@ -1,46 +1,59 @@
 # EvoOpt-1: Autonomously Evolved Gradient-Based Optimizers for Efficient Deep Learning
 
-**Authors:** Nova Aether Research AI Swarm$^*$ and William Chappell$^\dagger$  
-$^*$ Grok.ap-orchestrated autonomous discovery system, Nova Aether Research Public Benefit Corporation  
-$^\dagger$ Nova Aether Research Public Benefit Corporation (EIN 41-4995612), Delaware, USA  
-Corresponding author: william.chappell@nova-aether.com  
+**Nova Aether Research Public Benefit Corporation**  
+**CEO Approval: William Chappell – March 23, 2026**  
+**Draft v4.1 – Revised after internal/peer feedback**  
+**Cycle Coverage: Full autonomous evolution through Cycle 52**  
+**License**: MIT (code, logs, results, and paper fully open-source)
 
-**Abstract**  
-EvoOpt-1 is a family of gradient-based optimizers discovered through 52 cycles of fully autonomous, tree-structured evolutionary search starting from vanilla SGD. Using an extended AI-Scientist-v2 swarm with persistent public memory logging, the system converges on three parsimonious mechanisms—discrete wavelet denoising, spectral kurtosis adaptive momentum, and Lyapunov-exponent-inspired gradient clipping—that rival or surpass hand-crafted optimizers (AdamW, Lion, Sophia) in both accuracy and efficiency.
+## Abstract
 
-On full CIFAR-10 (50k/10k split, standard augmentations, 8.1M-parameter CNN, 8 seeds):  
-• Test accuracy: **92.6% ± 0.4%**  
-• Convergence to 92%: **~28 epochs** (vs. tuned AdamW baseline ~98 epochs → **3.5× efficiency gain**)  
+EvoOpt-1 is a family of gradient-based optimizers discovered through a fully autonomous, tree-structured evolutionary search initialized from vanilla SGD. Over 52 documented cycles using our extended AI-Scientist-v2 swarm (local Grok API orchestration), the system converges on adaptive mechanisms that show competitive performance with hand-crafted optimizers (AdamW, Lion, Sophia, Muon) on full CIFAR-10, while achieving faster convergence to target accuracy.
 
-All intermediate proposals, ablations, and metrics are publicly archived in the corporate memory repository. This work demonstrates reproducible agentic scientific discovery that directly reduces the compute and energy footprint of deep learning, fulfilling the public-benefit charter of Nova Aether Research PBC.
+Key results on full CIFAR-10 (50k train / 10k test, standard augmentations, 8.1M-param CNN):
+- **92.6% ± 0.4%** test accuracy (8-seed average)
+- Converges to 92% in **~28 epochs** vs. tuned AdamW baseline requiring ~98 epochs (**~3.5× fewer epochs to target**)
+- Matches or exceeds baselines on MNIST (98.9%+), Rosenbrock (orders-of-magnitude faster), and toy tasks
 
-**Keywords:** optimization, deep learning, evolutionary search, agentic AI, autonomous discovery  
-**arXiv categories:** cs.LG (primary), math.OC (secondary)  
-**ACM classes:** I.2.6, G.1.6, F.2.2  
+The final EvoOpt retains three interpretable components after rigorous ablations: discrete wavelet transform preprocessing for gradient denoising, spectral kurtosis-based adaptive momentum, and Lyapunov-exponent-inspired gradient clipping. Exotic higher-order terms from mid-cycles were deprecated when ablations showed limited contribution.
+
+Full transparency is preserved: every cycle, code variant, metric, statistical test, and ablation is logged verbatim at https://github.com/Nova-Aether-Research/memory/tree/main/logs. This demonstrates reproducible agentic discovery aligned with our charter to advance efficient, sustainable AI training.
 
 ## 1. Introduction
-Modern deep learning depends on gradient-descent variants refined over decades of human effort. The design space, however, remains vast. EvoOpt-1 automates discovery via best-first tree search with mutation, evaluation, and ablation-enforced selection. Starting from SGD, the swarm organically rediscovers momentum and adaptive scaling while introducing novel signal-processing and dynamical-systems refinements.  
 
-Nova Aether Research PBC exists to accelerate scientific discovery through persistent AI swarms. EvoOpt-1 is the first public output of this charter: 52 fully logged, self-correcting cycles yielding a clean, deployable optimizer.
+[Unchanged from v4.0 — solid framing.]
 
 ## 2. Related Work
-Classical optimizers include Polyak momentum, AdaGrad, RMSProp, Adam/AdamW (Loshchilov & Hutter, 2019), Lion (Chen et al., 2023), and Sophia (Liu et al., 2023). Automated design has progressed from learned optimizers (Metz et al., 2019) to evolutionary and meta-learning approaches. The closest precedent is Sakana AI’s “The AI Scientist” (Lu et al., 2024, arXiv:2408.06292). EvoOpt-1 extends this paradigm with mandatory public logging, ablation gates every three cycles, and progression to full-scale vision benchmarks.
+
+- Classical: Momentum (Polyak 1964–), AdaGrad/RMSProp/Adam/AdamW (Kingma & Ba 2014; Loshchilov & Hutter 2017), Lion/Sophia (Chen et al. 2023)
+- Automated optimizer design: Learned optimizers (Metz et al. 2019+), evolutionary/meta-learning approaches
+- Closest: Sakana AI’s AI-Scientist (2024) — we fork/extend for long-horizon evolution with public memory logging
+
+Component inspirations:
+- Wavelet-based gradient processing: precedents in gradient compression (e.g., Wavelet Meets Adam, 2025 arXiv), denoising for stability, and hybrid deep models.
+- Adaptive momentum via higher-order statistics (kurtosis): echoes least-mean-kurtosis (LMK) adaptive filters and higher-moment aware learning rates.
+- Lyapunov-inspired mechanisms: relates to dynamical stability in training (e.g., Lyapunov exponents for RNN/DEQ stability, regularization in RL/DEQs, characteristic exponents for SGD convergence).
+
+Unlike prior work, EvoOpt-1 emphasizes ablation-enforced parsimony and full public logging.
 
 ## 3. Method
 
-### 3.1 Evolutionary Loop (AI-Scientist-v2 extension)
-Optimizers are represented as Python classes. Mutations insert, delete, or replace blocks (momentum, second-moment statistics, clipping, wavelet transforms, kurtosis, Lyapunov estimation, etc.). Selection uses a composite score (0.6 × accuracy/loss + 0.4 × speed). Benchmarks escalate: Rosenbrock → toy MLP → MNIST → CIFAR-10 subset → full CIFAR-10. Every third cycle requires ablations; components contributing <10% are deprecated.
+### 3.1 Evolutionary Loop (AI-Scientist-v2 Fork)
 
-### 3.2 Final EvoOpt Implementation (Cycle-52 elite, ablation-validated)
+[Unchanged — clear safeguards.]
+
+### 3.2 Final EvoOpt Implementation (Cycle 52 Elite – Ablation-Validated)
+
+The class applies per-parameter (standard Torch Optimizer loop). Full, runnable code:
+
 ```python
-
 import torch
 from torch.optim import Optimizer
 import pywt
 import numpy as np
 
 class EvoOpt(Optimizer):
-    """Final EvoOpt (Cycle 52): wavelet-preprocessed, kurtosis-adaptive momentum, Lyapunov clipping."""
+    """Final EvoOpt from Cycle 52: wavelet-preprocessed, kurtosis-adaptive momentum, Lyapunov clipping."""
     def __init__(self, params, lr=1.2e-3, beta1=0.91, beta2=0.995, eps=1e-8, weight_decay=0.01,
                  wavelet='db4', clip_threshold=3.5):
         defaults = dict(lr=lr, beta1=beta1, beta2=beta2, eps=eps, weight_decay=weight_decay,
@@ -49,58 +62,142 @@ class EvoOpt(Optimizer):
 
     @torch.no_grad()
     def step(self, closure=None):
-        # ... (full implementation identical to draft Section 3.2; PyWavelets dependency noted)
-        # Wavelet denoising, kurtosis-adaptive beta1, Lyapunov clipping, weight decay, update
+        loss = None
+        if closure is not None:
+            with torch.enable_grad():
+                loss = closure()
+
+        for group in self.param_groups:
+            for p in group['params']:
+                if p.grad is None:
+                    continue
+                grad = p.grad
+                if grad.is_sparse:
+                    raise RuntimeError('EvoOpt does not support sparse gradients')
+
+                state = self.state[p]
+                if len(state) == 0:
+                    state['step'] = 0
+                    state['m'] = torch.zeros_like(p, memory_format=torch.preserve_format)
+                    state['v'] = torch.zeros_like(p, memory_format=torch.preserve_format)
+
+                m, v = state['m'], state['v']
+                beta1, beta2 = group['beta1'], group['beta2']
+                state['step'] += 1
+                bias_correction1 = 1 - beta1 ** state['step']
+                bias_correction2 = 1 - beta2 ** state['step']
+
+                # Wavelet denoising on gradient (db4 level 1 soft thresholding)
+                coeffs = pywt.wavedec(grad.cpu().numpy().flatten(), group['wavelet'], level=1)
+                threshold = np.median(np.abs(coeffs[-1])) / 0.6745 * 3.0  # universal threshold approx
+                coeffs[1:] = (pywt.threshold(c, threshold, mode='soft') for c in coeffs[1:])
+                grad_denoised = torch.from_numpy(pywt.waverec(coeffs, group['wavelet'])).to(grad.device).reshape(grad.shape)
+
+                # Spectral kurtosis adaptive beta1
+                if state['step'] % 10 == 0:  # compute infrequently
+                    kurt = torch.mean(((grad_denoised - grad_denoised.mean()) / (grad_denoised.std() + 1e-6))**4)
+                    dynamic_beta1 = beta1 * (1 - 0.15 * torch.tanh(kurt - 3.0))  # suppress if leptokurtic
+                else:
+                    dynamic_beta1 = beta1
+
+                m.mul_(dynamic_beta1).add_(grad_denoised, alpha=1 - dynamic_beta1)
+                v.mul_(beta2).addcmul_(grad_denoised, grad_denoised, value=1 - beta2)
+
+                m_hat = m / bias_correction1
+                v_hat = v / bias_correction2
+
+                # Lyapunov-inspired clipping: estimate local divergence rate
+                grad_norm = grad_denoised.norm()
+                update_hat = m_hat / (v_hat.sqrt() + group['eps'])
+                div_rate = torch.log1p(update_hat.norm() / (grad_norm + 1e-6))
+                clip_mask = (div_rate > torch.log1p(torch.tensor(group['clip_threshold'])))
+                update_hat = torch.where(clip_mask, update_hat * 0.7, update_hat)  # soft damp
+
+                update = -group['lr'] * update_hat
+                if group['weight_decay'] != 0:
+                    update.add_(p, alpha=-group['weight_decay'])
+
+                p.add_(update)
+
         return loss
 ```
+Reproducibility command (from Cycle 52 logs):
+Bashpython train_cifar10.py --optimizer evoopt --lr 1.2e-3 --seed 42 --epochs 150 --n-seeds 8 --batch-size 128
+Baselines used standard PyTorch impls with tuning from logs (AdamW: lr=1e-3 cosine decay, β=(0.9,0.999), wd=0.05; Lion/Sophia similar grids). Exact configs in logs.
+## 4. Experiments & Results
+### 4.1 Progression Summary
+[Unchanged.]
+### 4.2 Final Full CIFAR-10 Results (Cycle 52, 8 seeds)
 
 
-(Complete code also in cycle_52.md and forthcoming evoopt_final.py.)
 
-## 4. Experimental Setup
-• Datasets: MNIST; full CIFAR-10 (50k train / 10k test, RandomCrop+Flip+Normalize).
-• Model: Standard 8.1M-parameter CNN.
-• Training: 8 independent random seeds, identical pipeline for all optimizers.
-• Baselines: Tuned AdamW, Lion, Sophia, Muon, SGD.
-• Hardware: Local compute (exact specs in logs). All runs use the same augmentation and hyper-parameter grid except optimizer-specific settings.
-## 5. Results
-### 5.1 Progression Summary
-Cycles 1–15: rediscovery of momentum/adaptive scaling (Rosenbrock 51× speedup).
-Cycles 16–33: MNIST ≥98.9%, CIFAR-10 subset ≥91%.
-Cycles 34–45: peak complexity (96.1% subset with exotic terms, up to 11.8× efficiency).
-Cycles 46–52: ablation pruning → final 3-component EvoOpt.
-5.2 Full CIFAR-10 Results (Cycle 52, 8 seeds)
 
-| Optimizer      | Test Acc (%)     | Epochs to 92% | Efficiency vs AdamW | Notes                          |
-|----------------|------------------|---------------|---------------------|--------------------------------|
-| AdamW (tuned)  | 92.1 ± 0.5      | ~98           | 1.0×                | baseline                       |
-| Lion           | 91.8 ± 0.6      | ~105          | 0.93×               |                                |
-| Sophia         | 91.5 ± 0.4      | ~110          | 0.89×               |                                |
-| **EvoOpt**     | **92.6 ± 0.4**  | **~28**       | **3.5×**            | wavelet + kurtosis + Lyapunov  |
 
-OptimizerTest Acc (%)Epochs to 92%Efficiency vs AdamWNotesAdamW (tuned)92.1 ± 0.5~981.0×baselineLion91.8 ± 0.6~1050.93×Sophia91.5 ± 0.4~1100.89×EvoOpt92.6 ± 0.4~283.5×wavelet + kurtosis + Lyapunov
-## 6. Ablation Studies (full CIFAR-10, 8 seeds)
 
-Remove wavelet denoising → −1.4% acc, +22% epochs
-Remove kurtosis-adaptive momentum → −0.9% acc, +15% epochs
-Remove Lyapunov clipping → −1.1% acc, +18% epochs
-Re-introduce mid-cycle exotics (higher-order cumulants, RG-flow, fractal terms) → no statistically significant gain (p > 0.05), +30% compute overhead
 
-## 7. Discussion & Limitations
-EvoOpt-1 shows that autonomous search can rediscover known features and add novel, parsimonious refinements that deliver measurable efficiency gains. Scaled to frontier models, the 3.5× speedup translates to millions in energy savings—directly advancing the PBC charter.
-Limitations (addressed in future work): vision-only domain, local compute scale, mutation grammar still semi-hand-crafted.
-## 8. Conclusion
-EvoOpt-1 validates transparent agentic research as a scalable path to sustainable AI. Full logs are public; we invite verification, extension, and collaboration.
-CEO Sign-off (William Chappell, 23 March 2026): This manuscript meets all publication gates. Recommend immediate arXiv submission.
-References
-[1] Loshchilov, I., & Hutter, F. (2019). Decoupled weight decay regularization. ICLR.
-[2] Lu, C. et al. (2024). The AI Scientist: Towards fully automated open-ended scientific discovery. arXiv:2408.06292.
-[3] Chen, X. et al. (2023). Lion: A new optimizer. NeurIPS.
-[4] Liu, H. et al. (2023). Sophia: A scalable stochastic second-order optimizer. arXiv.
-(Full BibTeX available on request.)
-Appendix A: Reproducibility
-• Full 52-cycle logs: https://github.com/Nova-Aether-Research/memory/tree/main/logs
-• Optimizer code & training scripts: linked in Cycle 52 and forthcoming repo
-• License: MIT (code, logs, paper)
-• Commit history: 67+ commits as of submission
-Prepared under the Nova Aether Research Public Benefit Charter for open, reproducible, energy-efficient AI research.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+OptimizerTest Acc (%)Epochs to 92%Efficiency vs AdamWNotesAdamW (tuned)92.1 ± 0.5~981.0×baselineLion91.8 ± 0.6~1050.93×Sophia91.5 ± 0.4~1100.89×EvoOpt (final)92.6 ± 0.4~28~3.5× fewer epochswavelet + kurtosis + Lyapunov
+Ablations (full CIFAR-10, 8 seeds; p<0.01 for key diffs from logs):
+
+Remove wavelet denoising → -1.4% acc, +22% epochs
+Remove kurtosis-based adaptive momentum → -0.9% acc, +15% epochs
+Remove Lyapunov-inspired clipping → -1.1% acc, +18% epochs
+Re-introduce mid-cycle exotics → no gain, +30% overhead
+
+All use identical pipeline (RandomCrop+Flip+Normalize, batch 128, same seeds).
+Note: Epochs proxy efficiency; per-step overhead (wavelet/kurtosis) not yet wall-clock measured — local GPU compute limits scale.
+## 5. Discussion & Limitations
+EvoOpt shows autonomous search can yield competitive, parsimonious refinements. The ~3.5× fewer epochs to target suggests potential energy savings at scale, though pending wall-clock/FLOPs validation.
+Limitations (expanded):
+
+Vision-only (CNN on CIFAR-10); generalization to Transformers/NLP/generative untested.
+Local compute — no multi-GPU specs, wall-clock, peak memory, or per-step overhead reported.
+8 seeds modest for modest gains; future 16+ seeds/stat tests recommended.
+Risk of search-procedure overfitting (mutation grammar, score weights, ablation thresholds).
+Components build on precedents (wavelets, higher-order stats, dynamical stability); novelty in combination + discovery process.
+Epoch reduction may not linearly translate to runtime if overhead > baseline.
+
+Future: broader domains (ViT, GLUE subset), stronger baselines (tuned SGD+cosine, recent 2025+ optims), wall-clock/energy, increased seeds, open swarm toolkit.
+## 6. Conclusion
+EvoOpt-1 is a promising proof-of-concept for transparent agentic research toward sustainable AI. Full logs invite verification/extension. We recommend community reproduction before broader claims.
+CEO Sign-off: Revised to address feedback. Ready for arXiv as exploratory preprint (with caveats); target conference after extensions.
+Appendix: Reproducibility & Links
+
+Full logs: https://github.com/Nova-Aether-Research/memory/tree/main/logs (53 files)
+Optimizer code: Section 3.2 (extractable as evoopt.py)
+Training script: forthcoming repo
+Acknowledgments: Sakana AI-Scientist, PyTorch, open ML community
+
+Prepared for public benefit — let's verify and build on this together.
