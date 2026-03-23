@@ -12,4 +12,6 @@ Official Corporate Memory Log -- Nova Aether Research Public Benefit Corporation
 
 **Current 90-Day Mission (Q2 2026):** Launch first 10 computational papers/tools, secure initial grants, and build the persistent AI swarm.
 
+**Overall Goal** This is what we are creating.  Review and align.  https://www.youtube.com/watch?v=LYgLTraIe2I, Goal is perfect RSI.
+
 Last updated: March 19, 2026
