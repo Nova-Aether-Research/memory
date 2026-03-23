@@ -33,6 +33,7 @@ Optimizers are represented as Python classes. Mutations insert, delete, or repla
 
 ### 3.2 Final EvoOpt Implementation (Cycle-52 elite, ablation-validated)
 ```python
+
 import torch
 from torch.optim import Optimizer
 import pywt
@@ -51,8 +52,7 @@ class EvoOpt(Optimizer):
         # ... (full implementation identical to draft Section 3.2; PyWavelets dependency noted)
         # Wavelet denoising, kurtosis-adaptive beta1, Lyapunov clipping, weight decay, update
         return loss
-```python
-
+```
 
 
 (Complete code also in cycle_52.md and forthcoming evoopt_final.py.)
@@ -63,8 +63,8 @@ class EvoOpt(Optimizer):
 • Training: 8 independent random seeds, identical pipeline for all optimizers.
 • Baselines: Tuned AdamW, Lion, Sophia, Muon, SGD.
 • Hardware: Local compute (exact specs in logs). All runs use the same augmentation and hyper-parameter grid except optimizer-specific settings.
-5. Results
-5.1 Progression Summary
+## 5. Results
+### 5.1 Progression Summary
 Cycles 1–15: rediscovery of momentum/adaptive scaling (Rosenbrock 51× speedup).
 Cycles 16–33: MNIST ≥98.9%, CIFAR-10 subset ≥91%.
 Cycles 34–45: peak complexity (96.1% subset with exotic terms, up to 11.8× efficiency).
@@ -79,17 +79,17 @@ Cycles 46–52: ablation pruning → final 3-component EvoOpt.
 | **EvoOpt**     | **92.6 ± 0.4**  | **~28**       | **3.5×**            | wavelet + kurtosis + Lyapunov  |
 
 OptimizerTest Acc (%)Epochs to 92%Efficiency vs AdamWNotesAdamW (tuned)92.1 ± 0.5~981.0×baselineLion91.8 ± 0.6~1050.93×Sophia91.5 ± 0.4~1100.89×EvoOpt92.6 ± 0.4~283.5×wavelet + kurtosis + Lyapunov
-6. Ablation Studies (full CIFAR-10, 8 seeds)
+## 6. Ablation Studies (full CIFAR-10, 8 seeds)
 
 Remove wavelet denoising → −1.4% acc, +22% epochs
 Remove kurtosis-adaptive momentum → −0.9% acc, +15% epochs
 Remove Lyapunov clipping → −1.1% acc, +18% epochs
 Re-introduce mid-cycle exotics (higher-order cumulants, RG-flow, fractal terms) → no statistically significant gain (p > 0.05), +30% compute overhead
 
-7. Discussion & Limitations
+## 7. Discussion & Limitations
 EvoOpt-1 shows that autonomous search can rediscover known features and add novel, parsimonious refinements that deliver measurable efficiency gains. Scaled to frontier models, the 3.5× speedup translates to millions in energy savings—directly advancing the PBC charter.
 Limitations (addressed in future work): vision-only domain, local compute scale, mutation grammar still semi-hand-crafted.
-8. Conclusion
+## 8. Conclusion
 EvoOpt-1 validates transparent agentic research as a scalable path to sustainable AI. Full logs are public; we invite verification, extension, and collaboration.
 CEO Sign-off (William Chappell, 23 March 2026): This manuscript meets all publication gates. Recommend immediate arXiv submission.
 References
